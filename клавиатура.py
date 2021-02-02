@@ -1,4 +1,4 @@
-#757
+#66
 a = str(input("Please enter your letter: "))
 if a == 'q':
   print('w')
