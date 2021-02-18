@@ -1,4 +1,6 @@
 def welcome():
+  print("----------------------------------------------------------------")
+  print("\n\n                            loading...")
   print("\n▶   Welcome to the phonebook app, dear, User!   ◀")
   print("\n---   What would you like to do?   ---\n\nOptions:")
   print("   1. Show all contacts\n   2. Add new contact\n   3. Request contact\n   4. Delete contact\n   5. Close program\n")
