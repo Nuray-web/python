@@ -30,7 +30,6 @@ def remove():
 def call():
   callcon = str(input("Please enter the name of the contact: "))
   if callcon in contacts:
-    print("\nPhone number of the contact:")
     return (contacts.get(callcon))
   else:
     return ("\n▶   Sorry, there's no such contact in phonebook   ◀")
@@ -62,6 +61,9 @@ def phonebook():
           print(call())
           break
      return phonebook()
+  elif choice>5:
+    print("\n▶   Sorry, given option is unacceptable!   ◀")
+    return phonebook()
   else: 
     exit()
 
