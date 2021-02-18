@@ -18,11 +18,11 @@ def add():
 def remove(): 
   rcont = input("Please, enter the contact name you want to delete: ")
   if rcont in contacts:
-    ans = str(input("Please, confirm your action. Type 'True' to confirm or 'False' to prevent: "))
-    if ans == 'True':
+    ans = str(input("Please, confirm your action. Type 'yes' to confirm or 'no' to prevent: "))
+    if ans == 'yes':
       del contacts[rcont]
       return "\n///   Success, your contact has been deleted!   ///"
-    elif ans == 'False':
+    elif ans == 'no':
       return ("\n///   Your answer is accepted!   ///")
     else:
       return ("\n///   Excuse me, user, your answer is unreadable!   ///")
