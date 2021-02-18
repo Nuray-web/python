@@ -32,7 +32,8 @@ def remove():
 def call():
   callcon = str(input("Please, enter the name of the contact: "))
   if callcon in contacts:
-    return (contacts.get(callcon))
+    print("\n///   The phone number of given contact: " + contacts.get(callcon) + "   ///")
+    return ("")
   else:
     return ("\n///   Sorry, there's no such contact in phonebook   ///")
 
@@ -41,11 +42,13 @@ def show():
     return ("\n///   Sorry, your phonebook is empty!   ///")
   else:
     for pair in contacts.items():
-      print(pair)
+      print("\n")
+      print (pair)
     return " "
 
 #!!!без принта не покажет, не забудь вставить принт!!!
 def phonebook():
+  contacts = {}
   choice = welcome()
   if choice<5:
      while True:
@@ -69,5 +72,4 @@ def phonebook():
     exit()
 
 contacts = {}
-choice = 0
 print(phonebook())
