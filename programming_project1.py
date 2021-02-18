@@ -6,39 +6,38 @@ def welcome():
 def add():
   name = str(input("Please enter the name of the contact: "))
   if name in contacts:
-    print("\nSorry, this contact is already existing!")
+    print("\n▶   Sorry, this contact is already existing!   ◀")
   else:
     num = str(input("Please enter the phone number of the contact: "))
-    if num in contacts:
-      print("\nSorry, this contact is already exicting!")
-    else:
-      contacts[name] = num
+    contacts[name] = num
+  print("\n")
   return contacts
 
 def remove(): 
   rcont = input("Please enter the contact name you want to delete: ")
   if rcont in contacts:
-    ans = str(input("Please, confirm your action. Type 'True' to confirm or 'False' to prevent action."))
+    ans = str(input("Please, confirm your action. Type 'True' to confirm or 'False' to prevent: "))
     if ans == 'True':
       del contacts[rcont]
-      return "\nSuccess, your contact has been deleted!"
+      return "\n▶   Success, your contact has been deleted!   ◀"
     elif ans == 'False':
-      print("Your answer is accepted!")
+      return ("\n▶   Your answer is accepted!   ◀")
     else:
-      print("Excuse me, user, your answer is unreadable!")
+      return ("\n▶   Excuse me, user, your answer is unreadable!   ◀")
   else:
-    return ("\nSorry, there's no such contact in phonebook")
+    return ("\n▶   Sorry, there's no such contact in phonebook   ◀")
 
 def call():
   callcon = str(input("Please enter the name of the contact: "))
   if callcon in contacts:
+    print("\nPhone number of the contact:")
     return (contacts.get(callcon))
   else:
-    return ("\nSorry, there's no such contact in phonebook")
+    return ("\n▶   Sorry, there's no such contact in phonebook   ◀")
 
 def show():
   if bool(contacts) == False:
-    return ("\nSorry, your phonebook is empty!")
+    return ("\n▶   Sorry, your phonebook is empty!   ◀")
   else:
     for pair in contacts.items():
       print(pair)
