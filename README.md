@@ -1,3 +1,3 @@
-# I believe you can do everything
+# ты справишься
 acmp solution python
 
