@@ -1,3 +1,1 @@
-# ты справишься
-acmp solution python
-
+# Carpe diem
