@@ -85,5 +85,6 @@ class subject:
             print(Courses)
             print('\n----------------------------------------')
         persons.append(Person)
+    print("<<<   Enrolled users   >>>")
     for i in range(len(persons)):
         print('\n<<< '+str(persons[i])+' >>>\n')
