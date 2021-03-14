@@ -137,8 +137,6 @@ class manager:
                 return("\n---   Sorry, there're no registrated courses!   ---\n")
             else:
                 nameS = input("\nPlease, enter the name of the student you want to register on course: ")
-                courseS = [str(n) for n in input("Please, enter the name of the course: ").split( )]
-                c = list(set(ccourses1) & set(courseS))
                 if nameS in sstudents:
                     n = int(input("Please, enter the amount of courses: "))
                     courseS = [str(n) for n in input("Please, enter the name of the course: ").split( )]
