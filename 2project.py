@@ -1,28 +1,30 @@
 print("\n              Welcome to the registration app, dear User!")
 
 persons = []
+person = []
 ccourses1 = []
 ccourses = []
 instructors = []
 sstudents = []
 scourse = {}
+tcourse = {}
 
 class subject:
-    def __init__(self, sname, scode, sspeciality, cred, ects, instructor = 'Unknown'):
+    def __init__(self, sname, scode, sspeciality, cred, ects):
         subject.sname = sname
         subject.scode = scode
         subject.sspeciality = sspeciality
         subject.cred = cred
         subject.ects = ects
-        subject.instructor = instructor
         #subject.maxPerson = maxPerson
         #subject.students = []
     def __repr__(self):
-        return "    Course name: "+subject.sname+"\n    Course code: "+subject.scode+"\n    Course speciality: "+subject.sspeciality+"\n    Course credits: "+subject.cred+"\n    Course ects: "+subject.ects+"\n    Course's instructor: "+subject.instructor
+        return "    Course name: "+subject.sname+"\n    Course code: "+subject.scode+"\n    Course speciality: "+subject.sspeciality+"\n    Course credits: "+subject.cred+"\n    Course ects: "+subject.ects
     #def showStudents(self):
     #    return subject.students
     def __str__(self):
         return subject.sname + subject.scode
+
 
 class person:
     def __init__(self, name, surname, age, nationality, email):
@@ -31,6 +33,8 @@ class person:
         person.age = age
         person.nationality = nationality
         person.email = email
+        global esim
+        esim = person.name + ' ' + person.surname
     def __repr__(self):
         return "The person's name: "+person.name+"\n    The person's last name: "+person.surname+"\n    The person's age: "+str(person.age)+"\n    The person's nationality: "+person.nationality
 
@@ -44,7 +48,12 @@ class instructor(person):
         person.email = email
         person.status = status
     def __repr__(self):
-        return "Name: "+person.name+"\n    Last name: "+person.surname+"\n    Age: "+str(person.age)+"\n    Nationality: "+person.nationality+"\n    Workplace: "+person.workplace+"\n    Email: "+person.email+"\n    Status: "+person.status+"\n    Speciality: "+person.speciality+"\n    Courses: "+person.course+"\n    Workplace mail: "+person.wemail
+        return "Name: "+person.name+"\n    Last name: "+person.surname+"\n    Age: "+str(person.age)+"\n    Nationality: "+person.nationality+"\n    Workplace: "+person.workplace+"\n    Email: "+person.email+"\n    Status: "+person.status+"\n    Speciality: "+person.speciality+"\n    Workplace mail: "+person.wemail
+    def __str__(self):
+        if esim in tcourse:
+            return '\nTeaching courses: ' + tcourse[esim]
+        else:
+            return '\nTeaching courses: ' + person.course
     
 class student(person):
     def __init__(self,name,surname,age,nationality,email,status,univer,speciality,idc,eemail):
@@ -62,7 +71,6 @@ class student(person):
 class manager:
 
     def addSubject():
-        print("\n-----------------------------------------------------------------------------------------------\n")
         sname = input("\nPlease, enter the course's name: ")
         scode = input("Please, enter the course's code: ")
         sspeciality = input("Please, enter the course's speciality: ")
@@ -78,7 +86,6 @@ class manager:
         return ''  
     
     def printCourses(ccourses1):
-        print("\n-----------------------------------------------------------------------------------------------\n")
         if bool(ccourses1) == False:
             return ("\n///   Sorry, there're no courses in registration list!   ///\n")
         else:
@@ -88,7 +95,6 @@ class manager:
             return " "
 
     def registration():
-        print("\n-----------------------------------------------------------------------------------------------\n")
         a =  int(input("\nPlease, enter the number of the persons you want to enroll: "))
         while a>0:
             name = input("\nPlease, enter the person's name: ")
@@ -102,13 +108,15 @@ class manager:
             if check == 'Instructor' or check =='instructor' or check == 'inst':
                 workplace = input("Please, enter the person's workplace: ")
                 speciality = input("Please, enter the person's speciality: ")
-                course = input("Please, enter the person's teaching course: ")
                 wemail = name+'.'+surname+'@sdu.edu.kz'
                 status = check
-                Person = instructor(name,surname,age,nationality,email,status,workplace,speciality,course,wemail).__repr__()
+                course = 'Unassigned'
                 at = person.name + ' ' + person.surname
-                print('\nEntered person:\n<<< '+ str(Person))
                 instructors.append(at)
+                person.append(at)
+                Person = instructor(name,surname,age,nationality,email,status,workplace,speciality,course,wemail).__repr__()
+                co = instructor(name, surname, age, nationality, email, status, workplace, speciality, course, wemail).__str__()
+                print('\nEntered person:\n<<< '+ str(Person)+'\n'+str(co))
             elif check == 'Student' or check == 'student' or check == 'stud':
                 univer = input("Please, enter the person's educational organization: ")
                 speciality = input("Please, enter the person's studying speciality: ")
@@ -118,19 +126,22 @@ class manager:
                 Person = student(name,surname,age,nationality,email,status,univer,speciality,idc,eemail).__repr__()
                 at = person.name + ' ' + person.surname
                 sstudents.append(at)
+                person.append(at)
                 print('\nEntered person:\n<<< '+ str(Person))
             persons.append(Person)
         return '\n'
 
     def regOn():
-        print("\n-----------------------------------------------------------------------------------------------\n")
         nameS = input("\nPlease, enter the name of the student you want to register on course: ")
         n = int(input("Please, enter the amount of courses: ")) 
-        courseS = [str(n) for n in input("Please, enter the name of the course: ").split()]
+        courseS = [str(n) for n in input("Please, enter the name of the course: ").split( )]
         c = list(set(ccourses1) & set(courseS))
         if nameS in sstudents:
             if courseS == c:
-                scourse[nameS] = c
+                if nameS not in scourse:
+                    scourse[nameS] = c
+                else:
+                    scourse[nameS] = scourse[nameS] + c
             else:
                 print("\n///   Sorry, invalid entry! There's no such course in registration app!   ///")
         else:
@@ -141,21 +152,33 @@ class manager:
         return ''
     
     def request():
-        call = input("Please, enter the name of the student whose courses you want to see: ")
+        call = input("Please, enter the name of the student whose information you want to see: ")
         if call in scourse:
             print("\n///   The courses of given student: " + str(scourse.get(call)) + '   ///')
             return ''
         else:
             return "\n///   The given student hasn't registrated on any course!   ///"
+    
+    def req():
+        call = input("Please, enter the name of the instructor whose courses you want to see: ")
+        if call in tcourse:
+            print("\n///   The courses of given student: " + str(tcourse.get(call)) + '   ///')
+            return ''
+        else:
+            return "\n///   The given instructor hasn't assigned on any course!   ///"
+
+    def AllReg():
+        for pair in scourse.items():
+            print(pair, end='\n')
+        return ''
 
     def showAllUsers():
-        print("\n-----------------------------------------------------------------------------------------------\n")
-        if bool(persons) == False:
+        if bool(person) == False:
             print("\n///   Sorry, there're no enrolled users!   ///\n")
         else:
             print("\n///   Enrolled users   ///")
-            for i in range(len(persons)):
-                print('\n<<< '+str(persons[i])+' >>>')
+            for i in range(len(person)):
+                print('\n<<< '+str(person[i])+' >>>')
             confirm = input("\nIf you would like to see only students or only instructors list, please, enter one option: ")
             if confirm == 'stud' or confirm == 'student' or confirm == '1' or confirm == 'students' or confirm == 'Students' or confirm =='Student':
                 if bool(sstudents) != False:    
@@ -173,33 +196,72 @@ class manager:
                 print("///   Sorry, invalid syntax! Please, check your answer!   ///")
         return ''
 
-    while True:   #основной цикл       
-        print("\n-----------------------------------------------------------------------------------------------\n")
-        option = int(input("Menu Block:\n    1.Create a course\n    2.Show all courses\n    3.Enrolled users list\n    4.Enroll user\n    5.Register student on a course\n    6.Request student's course information\n    7.Exit\nPlease, enter the number of the option: "))
+    def assign():
+        name = input("Please, enter the name of the instructor: ")
+        n = int(input("Please, enter the amount of courses: ")) 
+        coursename = [str(n) for n in input("Please, enter the name of the course: ").split( )]
+        c = list(set(ccourses1) & set(coursename))
+        if name in instructors:
+            if coursename == c:
+                if name not in tcourse:
+                    tcourse[name] = c
+                else:
+                    tcourse[name] = tcourse[name] + c
+            else:
+                print("\n///   Sorry, invalid entry! There's no such course in registration app!   ///")
+        else:
+            print("\n///   Sorry, invalid entry! There's no such instructor in registration app!   ///")
+        print('\n')
+        for pair in tcourse.items():
+            print(pair, end='\n')
+        return ''
+
+
+    while True:   #основной цикл   
+        print("\n-----------------------------------------------------------------------------------------------\n")    
+        option = int(input("Menu Block:\n    1.Create a course\n    2.Show all courses\n    3.Enrolled users list\n    4.Enroll user\n    5.Register student on a course\n    6.Request student's course information\n    7.Show all students' course information\n    8.Assign instructor\n    9.Request for instructor's courses information\n    10.Exit\nPlease, enter the number of the option: "))
         while True:
             if option == 1:
+                print("\n-----------------------------------------------------------------------------------------------\n")
                 print(addSubject())
                 break
             elif option == 2:
+                print("\n-----------------------------------------------------------------------------------------------\n")
                 print('\n<<<')
                 print(printCourses(ccourses))
                 print('>>>')
                 break
             elif option == 3:
+                print("\n-----------------------------------------------------------------------------------------------\n")
                 print(showAllUsers())
                 break
             elif option == 4:
+                print("\n-----------------------------------------------------------------------------------------------\n")
                 print(registration())
                 break
             elif option == 5:
+                print("\n-----------------------------------------------------------------------------------------------\n")
                 print(regOn())
                 break
             elif option == 6:
+                print("\n-----------------------------------------------------------------------------------------------\n")
                 print(request())
                 break
+            elif option == 8:
+                print("\n-----------------------------------------------------------------------------------------------\n")
+                print(assign())
+                break
             elif option == 7:
+                print("\n-----------------------------------------------------------------------------------------------\n")
+                print(AllReg())
+                break
+            elif option == 9:
+                print("\n-----------------------------------------------------------------------------------------------\n")
+                print(req())
+                break
+            elif option == 10:
                 exit()
             else:
                 exit() 
-        if option == 7:
+        if option == 10:
             exit()      
