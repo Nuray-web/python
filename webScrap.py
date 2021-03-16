@@ -34,5 +34,6 @@ while count <= 5:  # count <= n
     info = cars[int(count)]
     price = info.find('span',{"class":"price"}).text
     title = info.find('span',{"class":"a-el-info-title"}).text
-    print('\n', title, ' ', price, '\n')
+    extra = info.find('div',{"class":"a-search-description"}).text
+    print('\n', title, ' ', price, '\n', extra)
     count += 1
