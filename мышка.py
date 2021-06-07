@@ -1,12 +1,6 @@
 #970
-w = int(input("Please enter the width value: "))
-h = int(input("Please enter the height value: "))
-r = int(input("Please enter the radius value: "))
-Sr = w*h
-Sc = r*r*3.14
-if Sr<Sc:
-    print("NO")
-elif Sr == Sc:
-    print("YES")
+w,h,r = list(map(int,input().split()))
+if w>=r*2 and h>=r*2:
+   print("YES")
 else:
-    print("NO")
+   print("NO")
