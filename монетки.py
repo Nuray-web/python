@@ -1,16 +1,14 @@
 #106
 #1 - решка, 0 - герб
-n = int(input("Введите количество монеток: "))
-pos = list(map(int,input("Какой расклад монет: ").split()))
+n = int(input())
+pos = []
+for i in range(n):
+   pos.append(int(input()))
 a = 0
 b = 0
-for i in range(1, n):
-    c = pos[i]
-    if c == 0:
-        a += 1
-    else:
-        b += 1
-if a < b:
-    print(a)
-else:
-    print(b)
+for i in range(n):
+   if pos[i] == 0:
+      a += 1
+   else:
+      b += 1
+print(min(a,b))
