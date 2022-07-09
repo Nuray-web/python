@@ -7,3 +7,6 @@ Information and communication technologies course, also from my university, most
 
 ## acmp
 The russian source with a lot of the interesting tasks of functional programming, OOP and logic.
+
+## selenium
+Course from Stepik educational website that teaches how to use selenium for web-scraping and autotesting, has multiple tasks with different level of hardness.
