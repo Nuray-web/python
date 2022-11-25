@@ -12,6 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import datetime
 import math
+import xlsxwriter
 
 def parse_category(category_name,category_link):
     driver = webdriver.Chrome('C:/chromedriver/chromedriver.exe')
@@ -33,7 +34,7 @@ def parse_category(category_name,category_link):
         new_url = category_link + '?page=' + str(i)
         print('\n', new_url, '\n')
         driver.get(new_url)
-        action.move_by_offset(10, 20)    # 10px to the right, 20px to bottom
+        action.move_by_offset(0, 0)    # 10px to the right, 20px to bottom
         action.click().perform()
     
         driver.execute_script("window.scrollBy(0, 1500);")
@@ -54,13 +55,21 @@ def parse_category(category_name,category_link):
             print(title)
             df.append(row)            
         data = pd.DataFrame(data = df)
+        
+    
     
     data['Price with discount'] = data['Price with discount'].astype(int)
     data['Actual price'] = data['Actual price'].astype(int)
     data['Discount(%)'] = round((data['Price with discount']/data['Actual price'] - 1)*100, 2)
     driver.close()
-    data.to_csv('C:/Users/nsyrymbet/Desktop/test_parsing/'+'TD '+str(category_name)+'.csv', encoding='utf-8-sig', index = False)
+    print(data)
     
+    #worksheet = workbook.add_worksheet(category_name)
+    
+    data.to_excel(workbook, sheet_name=category_name)  
+    
+workbook = pd.ExcelWriter('C:/Users/nsyrymbet/Desktop/test_parsing/TD '+str(time.strftime("%Y-%m-%d %H-%M", time.localtime()))+'.xlsx')
 for k,v in categorys.items():
     print('Категория:', k, '\nСсылка:', v)
     parse_category(k,v)
+workbook.save()
